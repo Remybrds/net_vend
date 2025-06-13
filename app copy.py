@@ -5,7 +5,7 @@ lien ="tableau_coeff.xlsx"
 df = pd.read_excel(lien)
 
 def prix_nv(prix_net_vendeur):
-    prix_net_vendeur = int(prix_net_vendeur)
+    prix_net_vendeur = int(prix_net_vendeur.replace(" ", "")) if prix_net_vendeur else None
     for i in range(0, len(df)):
         #print(prix_net_vendeur)
         #print(df['Prix_de_vente'][i])
@@ -31,6 +31,7 @@ def prix_nv(prix_net_vendeur):
 st.title("Calcul du prix de vente selon le prix de vente net client")
 
 prix_net_vendeur = st.text_input("Inserez le prix net vendeur")
+
 
 if prix_net_vendeur:
     st.write("coeff appliqué : ",prix_nv(prix_net_vendeur)[0])
