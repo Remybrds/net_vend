@@ -7,17 +7,19 @@ df = pd.read_excel(lien)
 
 # Fonction de calcul
 def prix_nv(prix_net_vendeur):
-    prix_net_vendeur = int(prix_net_vendeur)
-    for i in range(0, len(df)):
-        if prix_net_vendeur >= df['min'][i] and prix_net_vendeur <= df['max'][i]:
-            coeff_temp = df['coeff'][i]
-            prix_vente_temp = prix_net_vendeur + (prix_net_vendeur * df['coeff'][i])
-            if prix_net_vendeur + (prix_net_vendeur * df['coeff'][i]) > df['min'][i+1]:
-                prix_vente = prix_net_vendeur + (prix_net_vendeur * df['coeff'][i+1])
-                coeff = df['coeff'][i+1]
-                return coeff, prix_vente
-            else:
-                return coeff_temp, prix_vente_temp
+    if prix_net_vendeur : 
+        prix_net_vendeur = int(prix_net_vendeur)
+        for i in range(0, len(df)):
+            if prix_net_vendeur >= df['min'][i] and prix_net_vendeur <= df['max'][i]:
+                coeff_temp = df['coeff'][i]
+                prix_vente_temp = prix_net_vendeur + (prix_net_vendeur * df['coeff'][i])
+                if prix_net_vendeur + (prix_net_vendeur * df['coeff'][i]) > df['min'][i+1]:
+                    prix_vente = prix_net_vendeur + (prix_net_vendeur * df['coeff'][i+1])
+                    coeff = df['coeff'][i+1]
+                    return coeff, prix_vente
+                else:
+                    return coeff_temp, prix_vente_temp
+    else : exit
 
 # --- STYLE MINIMALISTE ---
 st.markdown("""
@@ -45,7 +47,7 @@ st.markdown("""
 # --- UI ---
 st.title("Calcul du prix de vente selon le prix de vente net client")
 
-prix_net_vendeur = st.text_input("Entrez le prix net vendeur (€)", placeholder="Ex: 300000")
+prix_net_vendeur = st.text_input("Entrez le prix net vendeur (€)", value=0, placeholder="Ex: 300000")
 prix_net_vendeur = int(prix_net_vendeur.replace(" ", ""))
 
 if prix_net_vendeur:
