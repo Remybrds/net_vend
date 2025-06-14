@@ -10,7 +10,7 @@ def prix_nv(prix_net_vendeur):
     if prix_net_vendeur : 
         prix_net_vendeur = int(prix_net_vendeur)
         for i in range(0, len(df)):
-            if prix_net_vendeur >= df['min'][i] and prix_net_vendeur <= df['max'][i]:
+            if prix_net_vendeur > df['min'][i] and prix_net_vendeur <= df['max'][i]:
                 coeff_temp = df['coeff'][i]
                 prix_vente_temp = prix_net_vendeur / (1 - df['coeff'][i])
                 if prix_net_vendeur + (prix_net_vendeur * df['coeff'][i]) > df['min'][i+1]:
@@ -64,23 +64,24 @@ if prix_net_vendeur:
             st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix de vente estimé</div></div>'.format(prix_vente), unsafe_allow_html=True)
 
         st.markdown("### Détails des coefficients utilisés")
-        st.dataframe(df[['Prix_de_vente', 'coeff']])
+        st.dataframe(df[['Prix_de_vente', 'coeff']], )
 
-        prix_vente_final = st.text_input("Entrez le prix de vente total", value=0, placeholder="Ex: 300000")
+
+        st.header("Test : ")
+        prix_vente_final = st.text_input("Entrez le prix de vente total", placeholder="Ex: 300000")
         prix_vente_final = float(prix_vente_final)
 
         for i in range(0, len(df)):
-            if prix_net_vendeur >= df['min'][i] and prix_net_vendeur <= df['max'][i]:
-                c = df['coeff'][i+1]
+            if prix_vente_final > df['min'][i] and prix_vente_final <= df['max'][i]:
+                c = df['coeff'][i]
                 p_net = prix_vente_final - (prix_vente_final * c)
+                col4, col5 = st.columns(2)
+                with col4:
+                    st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(c), unsafe_allow_html=True)
+                with col5:
+                    st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(p_net), unsafe_allow_html=True)
                 break
-
-        col4, col5 = st.columns(2)
-        with col4:
-            st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(c), unsafe_allow_html=True)
-        with col5:
-            st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix de vente net</div></div>'.format(p_net), unsafe_allow_html=True)
-
+        
     except:
         st.warning("Erreur : Veuillez entrer un nombre valide.")
 else:
