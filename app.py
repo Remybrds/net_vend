@@ -75,6 +75,7 @@ if prix_net_vendeur:
             if prix_vente_final > df['min'][i] and prix_vente_final <= df['max'][i]:
                 c = df['coeff'][i]
                 p_net = prix_vente_final - (prix_vente_final * c)
+                st.write(i)
                 col4, col5 = st.columns(2)
                 with col4:
                     st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(c), unsafe_allow_html=True)
