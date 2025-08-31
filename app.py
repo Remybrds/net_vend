@@ -81,13 +81,16 @@ if prix_net_vendeur:
         else : 
             coeff, prix_vente = prix_nv_c(prix_net_vendeur)
 
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(prix_net_vendeur), unsafe_allow_html=True)
         with col2:
             st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(coeff), unsafe_allow_html=True)
         with col3:
             st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix de vente estimé</div></div>'.format(prix_vente), unsafe_allow_html=True)
+        with col4:
+            st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Frais</div></div>'.format(prix_vente*coeff), unsafe_allow_html=True)
+
 
         st.header("Barème")
         st.dataframe(df[['Prix_de_vente', 'coeff']].rename(columns={'Prix_de_vente' : 'Prix de vente', 'coeff' : 'Taux'}), )
@@ -103,26 +106,30 @@ if prix_net_vendeur:
             if prix_vente_final >= df['min'][i] and prix_vente_final <= df['max'][i]:
                 c = df['coeff'][i]
                 p_net = prix_vente_final - c
-                col4, col5, col6 = st.columns(3)
-                with col4:
-                    st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(prix_vente_final), unsafe_allow_html=True)
+                col5, col6, col7, col8 = st.columns(4)
                 with col5:
-                    st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(c), unsafe_allow_html=True)
+                    st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(prix_vente_final), unsafe_allow_html=True)
                 with col6:
+                    st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(c), unsafe_allow_html=True)
+                with col7:
                     st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(p_net), unsafe_allow_html=True)
+                with col8:
+                    st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Frais</div></div>'.format(prix_vente*coeff), unsafe_allow_html=True)
                 break
 
         for i in range(3, len(df)):
             if prix_vente_final >= df['min'][i] and prix_vente_final <= df['max'][i]:
                 c = df['coeff'][i]
                 p_net = prix_vente_final - (prix_vente_final * c)
-                col4, col5, col6 = st.columns(3)
-                with col4:
-                    st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(prix_vente_final), unsafe_allow_html=True)
+                col5, col6, col7, col8 = st.columns(4)
                 with col5:
-                    st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(c), unsafe_allow_html=True)
+                    st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(prix_vente_final), unsafe_allow_html=True)
                 with col6:
+                    st.markdown('<div class="box"><div class="big-number">{:.3f}</div><div class="label">Coefficient appliqué</div></div>'.format(c), unsafe_allow_html=True)
+                with col7:
                     st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Prix net vendeur</div></div>'.format(p_net), unsafe_allow_html=True)
+                with col8:
+                    st.markdown('<div class="box"><div class="big-number">{:.0f} €</div><div class="label">Frais</div></div>'.format(prix_vente*coeff), unsafe_allow_html=True)
                 break
         
     except:
